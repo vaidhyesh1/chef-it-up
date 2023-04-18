@@ -1,0 +1,16 @@
+.header-container{
+    height: 75px;
+    background-color: #1A76D2;
+    color: white;
+    font-weight: 900;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px
+}
+
+.header-logo{
+    height: 75px;
+    margin-right: 10px;
+}

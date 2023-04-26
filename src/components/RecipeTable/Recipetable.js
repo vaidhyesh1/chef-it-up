@@ -32,8 +32,6 @@ const style = {
 function RecipeTable(props) {
     const {recipeList, userId} = props
 
-    console.log('*** reciptable', recipeList)
-
     const navigate = useNavigate();
 
     const [open, setOpen] = React.useState(false);
@@ -55,13 +53,6 @@ function RecipeTable(props) {
             renderCell: (params) => {
               const onClick = (e) => {
                 e.stopPropagation(); // don't select this row after clicking
-        
-                // const api = params.api;
-                // const thisRow = {};
-                // setRecipeName(params.row.recipeName)
-                // const recipeDetails = getRecipe(params.row.recipeName)
-                // setReceipeDetails(recipeDetails)
-                // handleOpen()
                 navigate(`/recipe/${params.row.id}?userId=${userId}`);
               };
         

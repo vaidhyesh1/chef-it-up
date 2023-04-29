@@ -3,24 +3,23 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 
-
 import './userSelect.css'
 
 const renderMenuItems = (userList) => {
-    console.log('Userlist', userList)
-    return userList && userList.length > 0 ? userList.map((user, index) => {
+    return userList && userList.length > 0 ? userList.map((user) => {
         return (
-            <MenuItem value={user}>{user}</MenuItem>
+            <MenuItem key={user} value={user}>{"User " + user}</MenuItem>
         )
     }): [];
 }
 
 function UserSelect(props){
-    const {userList , selectedUser ,setSelectedUser} = props;
+    const {userList , selectedUser, setSelectedUser} = props;
 
     const handleChange = (event) => {
         setSelectedUser(event.target.value);
     };
+    
     return (
         <div className='select-container'>
             <InputLabel id="demo-simple-select-standard-label">Select user</InputLabel>

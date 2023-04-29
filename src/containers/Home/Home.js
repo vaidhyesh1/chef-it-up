@@ -1,44 +1,29 @@
 import { useEffect, useState } from 'react'
-import axios from "axios";
 import './home.css'
-import Header from '../../components/Header/Header.js'
-import UserSelect  from '../../components/UserSelect/UserSelect.js'
 import RecipeTable  from '../../components/RecipeTable/Recipetable.js'
+import Typography from '@mui/material/Typography';
+import { getRecipeForUser } from '../../Api.js';
 
-const getUsers = async () => {
-    let userList = await axios.get('https://vaidhyesh.pythonanywhere.com/users')
-    return userList.data
-}
-
-const getRecipeForUser = async (userId) => {
-    let recommendations = await axios.get(`https://vaidhyesh.pythonanywhere.com/recommendation?userId=${userId}`)
-    return recommendations.data
-}
-
-function Home(){
-    const [selectedUser, setSelectedUser] = useState('');
-    const [userList, setUserList] = useState([])
+function Home(props){
+    const {selectedUser} = props
     const [recipeList, setRecipeList] = useState([])
 
     useEffect(() => {
-        getUsers().then(userList => {
-            setUserList(userList)
-        });
-    }, [])
-
-    const handleUserChange = async (newSelectedUser) => {
-        setSelectedUser(newSelectedUser)
-        const recipeListForUser = await getRecipeForUser(newSelectedUser)
-        setRecipeList(recipeListForUser)
-    }
-
-
+        if(selectedUser !== "") {
+            getRecipeForUser(selectedUser).then(recipeList => {
+                setRecipeList(recipeList)
+            })
+        }
+    })
 
     return (
         <div>
-            <Header/>
             <div className='home-body'>
-                <UserSelect userList = {userList} selectedUser = {selectedUser} setSelectedUser={handleUserChange}/>
+                <div className='title-container'>
+                    <Typography variant="h6" component="h2" className='table-title'>
+                        Recommended recipes:
+                    </Typography>
+                </div>
                 <RecipeTable recipeList = {recipeList} userId = {selectedUser}/>
             </div>
         </div>

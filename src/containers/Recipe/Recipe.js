@@ -1,30 +1,19 @@
 import { useEffect, useState } from 'react'
 import { useParams,useNavigate, useSearchParams } from 'react-router-dom';
-import axios from "axios";
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import Header from '../../components/Header/Header.js'
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import {Button} from '@mui/material';
 import './recipe.css'
-
-const getRecipe = async (recipeId) => {
-    const recipe = await axios.get(`https://vaidhyesh.pythonanywhere.com/recipe?recipeId=${recipeId}`)
-    return recipe.data
-}
-
-const getRecommendations = async (recipeId, userId) => {
-    const res = await axios.get(`https://vaidhyesh.pythonanywhere.com/recommendationBasedOnClick?userId=${userId}&recipeId=${recipeId}`)
-    return res.data
-}
+import {getRecipe, getRecommendations} from '../../Api.js';
 
 const renderRecommendationCards = (recommendations, navigate, userId) => {
     return recommendations.map((recommendation, index) => {
         return (
-            <Card sx={{ minWidth: 275, margin: '10px' }}>
+            <Card sx={{ minWidth: 275, maxWidth: 300, margin: '10px' }}>
                 <CardContent>
                     <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                         Recommendation {index+1}:
@@ -48,23 +37,25 @@ const renderSteps = (steps) => {
     return typeof steps == 'object' && steps.map((step, index) => {
         return (
             <Typography variant="body1">
-                   {index+1}. {step}
+                {index+1}. {step}
             </Typography>
+            
         )
     })
 }
 
 const formatSteps = (steps) => {
-    const strippedString = steps.replace(/[\\\"]/g,"'").replace(/[\[\]]/g,"")
-    const stepsArr = strippedString.split(", '").map(str => str.replace(/[\']/g,""))
+    const strippedString = steps.replace(/[\\"]/g,"'").replace(/[[\]]/g,"")
+    const stepsArr = strippedString.split(", '").map(str => str.replace(/[']/g,""))
     return stepsArr
 }
 
 
 function Recipe(){
     let { recipeId } = useParams();
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const [recipeName, setRecipeName] = useState('');
+    const [minutes, setMinutes] = useState('');
     const [ingredients, setIngredients] = useState('');
     const [steps, setSteps] = useState('');
     const [recommendations, setRecommendations] = useState([]);
@@ -73,8 +64,10 @@ function Recipe(){
 
     useEffect(() => {
         getRecipe(recipeId).then(recipe => {
+            console.log("Recipe", recipe)
             setRecipeName(recipe.name)
-            const ingredients = recipe.ingredients.replace(/[\[\]\']/g,'');
+            setMinutes(recipe.minutes)
+            const ingredients = recipe.ingredients.replace(/[[\]']/g,'');
             setIngredients(ingredients)
             setSteps(formatSteps(recipe.steps))
             getRecommendations(recipeId, userId).then((recommendations) => {
@@ -85,7 +78,6 @@ function Recipe(){
 
     return (
         <div>
-            <Header/>
             <Box
                 sx={{
                     display: 'flex',
@@ -104,11 +96,15 @@ function Recipe(){
                         {recipeName}
                     </Typography>
                     <br/>
-                    <Typography variant="subtitle1">
+                    <Typography variant="subtitle1" style={{textAlign: 'left'}}>
+                        <b>Minutes:</b> {minutes}
+                    </Typography>
+                    <br/>
+                    <Typography variant="subtitle1" style={{textAlign: 'left'}}>
                         <b>Ingredients:</b> {ingredients}
                     </Typography>
                     <br/>
-                    <Typography variant="body1">
+                    <Typography variant="body1" style={{textAlign: 'left'}}>
                         <b>Steps: </b>{renderSteps(steps)}
                     </Typography>
                     <Typography variant="body1" className='recommendation-heading'>

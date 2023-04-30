@@ -8,6 +8,11 @@ export const getUsers = async () => {
     return userList.data
 }
 
+export const getUserFollows = async (userId) => {
+    let userList = await axios.get(baseURL + `user?userId=${userId}`)
+    return userList.data
+}
+
 // Recipe APIs
 export const getAllRecipes = async () => {
     const recipes = await axios.get(baseURL + `recipes`)

@@ -8,7 +8,7 @@ import './userSelect.css'
 const renderMenuItems = (userList) => {
     return userList && userList.length > 0 ? userList.map((user) => {
         return (
-            <MenuItem key={user} value={user}>{"User " + user}</MenuItem>
+            <MenuItem key={user.id} value={user.id}>{user.name}</MenuItem>
         )
     }): [];
 }

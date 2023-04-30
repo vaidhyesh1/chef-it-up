@@ -13,6 +13,10 @@ export const getUserFollows = async (userId) => {
     return userList.data
 }
 
+export const postUserFollows = async (userId, userList) => {
+    return axios.post(baseURL + `user?userId=${userId}`, userList)
+}
+
 // Recipe APIs
 export const getAllRecipes = async () => {
     const recipes = await axios.get(baseURL + `recipes`)

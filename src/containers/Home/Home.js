@@ -16,7 +16,7 @@ function Home(props){
                 setRecipeList(recipeList)
             })
         }
-    })
+    }, [selectedUser])
 
     return (
         <div>

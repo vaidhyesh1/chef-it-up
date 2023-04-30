@@ -24,7 +24,8 @@ function App() {
 
   const handleUserChange = async (newSelectedUser) => {
     setSelectedUser(newSelectedUser)
-    navigate('/')
+    console.log(newSelectedUser)
+    // navigate('/')
   }
 
   return (
@@ -37,7 +38,7 @@ function App() {
         <Route path="/" element={<Home selectedUser = {selectedUser} />} />
         <Route path="/recipes" element={<ExploreRecipes userId = {selectedUser} />} />
         <Route path="/recipe/:recipeId" element={<Recipe userId = {selectedUser} />} />
-        <Route path="/following" element={<Following userId = {selectedUser} />} />
+        <Route path="/following" element={<Following userId = {selectedUser} userList={userList} />} />
       </Routes>
     </div>
   );

@@ -1,22 +1,47 @@
 import './explorerecipes.css'
 import { useEffect, useState } from 'react'
-import RecipeTable from '../../components/RecipeTable/Recipetable.js';
+import { useLocation } from "react-router-dom";
+import ExploreTable from '../../components/RecipeTable/ExploreTable.js';
 import { getAllRecipes } from '../../Api.js'
 
 function ExploreRecipe(props) {
     const [recipeList, setRecipeList] = useState([]);
     const {userId} = props
+    const location = useLocation();
+    const tagData = location.state;
+    const [filterItems, setFilterItems] = useState(
+        {
+            items: [
+                {
+                    field: "tags",
+                    operator: "contains",
+                    value: undefined
+                }
+            ]
+        }
+    )
 
     useEffect(() => {
         getAllRecipes().then(recipes => {
+            // console.log(recipes)
             setRecipeList(recipes)
         })
-    }, [])
+
+        if(tagData !== null ) {
+            setFilterItems({items: [
+                {
+                    field: "tags",
+                    operator: "contains",
+                    value: tagData.tag
+                }
+            ]})
+        }
+    }, [tagData])
 
     return (
         <div className='explore-recipes-body'>
             <h1>Explore New Recipes:</h1>
-            <RecipeTable recipeList = {recipeList} userId = {userId}/>
+            <ExploreTable recipeList = {recipeList} userId = {userId} filterItems={filterItems} setFilterItems={setFilterItems} />
         </div>
     )
 }

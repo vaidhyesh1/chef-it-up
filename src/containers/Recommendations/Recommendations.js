@@ -10,7 +10,7 @@ import './recommendations.css'
 const renderRecommendationCards = (recommendations, navigate, userId) => {
     return recommendations.map((recommendation, index) => {
         return (
-            <Card sx={{ minWidth: 350, maxWidth: 400, margin: '10px' }}>
+            <Card key={recommendation.name} sx={{ minWidth: 350, maxWidth: 400, margin: '10px' }}>
                 <CardContent sx={{marginBottom: '-20px'}}>
                     <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                         Recommendation {index+1}:

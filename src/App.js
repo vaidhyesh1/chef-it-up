@@ -1,7 +1,8 @@
 // import logo from './logo.svg';
 import './App.css';
-import { useNavigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { useEffect, useState } from 'react'
+import { useNavigate } from "react-router-dom";
 import Home from './containers/Home/Home.js'
 import Header from './components/Header/Header.js'
 import Recipe from './containers/Recipe/Recipe.js'
@@ -11,7 +12,6 @@ import UserSelect  from './components/UserSelect/UserSelect.js'
 import { getUsers } from './Api.js'
 
 function App() {
-
   const navigate = useNavigate();
   const [selectedUser, setSelectedUser] = useState('');
   const [userList, setUserList] = useState([])
@@ -24,8 +24,7 @@ function App() {
 
   const handleUserChange = async (newSelectedUser) => {
     setSelectedUser(newSelectedUser)
-    console.log(newSelectedUser)
-    // navigate('/')
+    navigate("/")
   }
 
   return (

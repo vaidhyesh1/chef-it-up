@@ -1,36 +1,11 @@
 import { useEffect, useState } from 'react'
-import { useParams,useNavigate, useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import {Button} from '@mui/material';
 import './recipe.css'
+import Recommendations from '../Recommendations/Recommendations';
 import {getRecipe, getRecommendations} from '../../Api.js';
-
-const renderRecommendationCards = (recommendations, navigate, userId) => {
-    return recommendations.map((recommendation, index) => {
-        return (
-            <Card sx={{ minWidth: 275, maxWidth: 300, margin: '10px' }}>
-                <CardContent>
-                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                        Recommendation {index+1}:
-                    </Typography>
-                    <Typography variant="h5" component="div">
-                    {recommendation.name}
-                    </Typography>
-                </CardContent>
-                <CardActions>
-                    <Button size="small" onClick={() => {
-                        navigate(`/recipe/${recommendation.id}?userId=${userId}`);
-                    }}>Learn More</Button>
-                </CardActions>
-            </Card>
-        )
-    })
-}
 
 const renderSteps = (steps) => {
     
@@ -51,24 +26,25 @@ const formatSteps = (steps) => {
 }
 
 
-function Recipe(){
+function Recipe () {
     let { recipeId } = useParams();
     const [searchParams] = useSearchParams();
     const [recipeName, setRecipeName] = useState('');
     const [minutes, setMinutes] = useState('');
     const [ingredients, setIngredients] = useState('');
+    const [description, setDescription] = useState('');
     const [steps, setSteps] = useState('');
     const [recommendations, setRecommendations] = useState([]);
-    const navigate = useNavigate();
     const userId = searchParams.get('userId')
 
     useEffect(() => {
         getRecipe(recipeId).then(recipe => {
-            console.log("Recipe", recipe)
+            console.log("Recipe", typeof recipe)
             setRecipeName(recipe.name)
             setMinutes(recipe.minutes)
             const ingredients = recipe.ingredients.replace(/[[\]']/g,'');
             setIngredients(ingredients)
+            setDescription(recipe.description)
             setSteps(formatSteps(recipe.steps))
             getRecommendations(recipeId, userId).then((recommendations) => {
                 setRecommendations(recommendations)
@@ -104,6 +80,10 @@ function Recipe(){
                         <b>Ingredients:</b> {ingredients}
                     </Typography>
                     <br/>
+                    <Typography variant="subtitle1" style={{textAlign: 'left'}}>
+                        <b>Description:</b> {description}
+                    </Typography>
+                    <br/>
                     <Typography variant="body1" style={{textAlign: 'left'}}>
                         <b>Steps: </b>{renderSteps(steps)}
                     </Typography>
@@ -111,7 +91,7 @@ function Recipe(){
                         <b>Recommendations based on this recipe:</b>
                     </Typography>
                     <div className='recommendation-cards'>
-                        {renderRecommendationCards(recommendations, navigate, userId)}
+                        <Recommendations recipeList={recommendations} userId={userId} />
                     </div>
                 </Paper>
             </Box>

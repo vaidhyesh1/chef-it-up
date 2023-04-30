@@ -16,6 +16,7 @@ const formatTableData = (recipeList) => {
 
 function RecipeTable(props) {
     const {recipeList, userId} = props
+    const {filterItems, setFilterItems} = props
     const navigate = useNavigate();
 
     const columns = [
@@ -47,8 +48,11 @@ function RecipeTable(props) {
                 columns={columns}
                 pageSize={5}
                 rowsPerPageOptions={[5]}
-                // checkboxSelection
-            />
+                filterModel={filterItems}
+                onFilterModelChange={(newFilterModel) => {
+                    console.log(newFilterModel)
+                    setFilterItems(newFilterModel)}}
+            />  
         </div>
     )
 }

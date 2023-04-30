@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 import './recipe.css'
 import Recommendations from '../Recommendations/Recommendations';
 import {getRecipe, getRecommendations} from '../../Api.js';
@@ -19,6 +20,17 @@ const renderSteps = (steps) => {
     })
 }
 
+const renderTags = (tags, navigate) => {
+    
+    return typeof tags == 'object' && tags.map((tag) => {
+        return (
+            <Button onClick={() => {
+                navigate(`/recipes`, {state: {tag}});
+            }} variant="outlined" value={tag}>{tag}</Button>
+        )
+    })
+}
+
 const formatSteps = (steps) => {
     const strippedString = steps.replace(/[\\"]/g,"'").replace(/[[\]]/g,"")
     const stepsArr = strippedString.split(", '").map(str => str.replace(/[']/g,""))
@@ -27,11 +39,13 @@ const formatSteps = (steps) => {
 
 
 function Recipe () {
+    const navigate = useNavigate(); 
     let { recipeId } = useParams();
     const [searchParams] = useSearchParams();
     const [recipeName, setRecipeName] = useState('');
     const [minutes, setMinutes] = useState('');
     const [ingredients, setIngredients] = useState('');
+    const [tags, setTags] = useState('')
     const [description, setDescription] = useState('');
     const [steps, setSteps] = useState('');
     const [recommendations, setRecommendations] = useState([]);
@@ -39,18 +53,22 @@ function Recipe () {
 
     useEffect(() => {
         getRecipe(recipeId).then(recipe => {
-            console.log("Recipe", typeof recipe)
+            // console.log("Recipe", recipe)
             setRecipeName(recipe.name)
             setMinutes(recipe.minutes)
             const ingredients = recipe.ingredients.replace(/[[\]']/g,'');
             setIngredients(ingredients)
+            var tags = recipe.tags.replace(/[[\]']/g,'');
+            tags = tags.split(',')
+            tags = tags.map((entry) => {return entry.trim()});
+            setTags(tags)
             setDescription(recipe.description)
             setSteps(formatSteps(recipe.steps))
             getRecommendations(recipeId, userId).then((recommendations) => {
                 setRecommendations(recommendations)
             })
         });
-    }, [recipeId])
+    }, [recipeId, userId])
 
     return (
         <div>
@@ -67,7 +85,7 @@ function Recipe () {
                     },
                 }}
             >
-                <Paper elevation={3} >
+                <Paper key={recipeName} elevation={3} >
                     <Typography id="modal-modal-title" variant="h5" component="h2">
                         {recipeName}
                     </Typography>
@@ -87,6 +105,11 @@ function Recipe () {
                     <Typography variant="body1" style={{textAlign: 'left'}}>
                         <b>Steps: </b>{renderSteps(steps)}
                     </Typography>
+                    <br />
+                    <Typography variant="body1" style={{textAlign: 'left'}}>
+                        <b>Tags: </b>{renderTags(tags, navigate)}
+                    </Typography>
+                    <br />
                     <Typography variant="body1" className='recommendation-heading'>
                         <b>Recommendations based on this recipe:</b>
                     </Typography>

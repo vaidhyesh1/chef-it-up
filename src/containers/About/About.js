@@ -21,6 +21,12 @@ function About(){
                 <h1 id="chef-it-up-final-project-report">Chef-It-Up: Final Project Report</h1>
 
                 <div style={{textAlign: 'left'}}>
+                    <h3>Code Repo Links</h3>
+                    <a href="https://github.com/vaidhyesh1/chef-it-up" rel="noreferrer" target="_blank">Chef-It-Up UI</a><br />
+                    <a href="https://github.com/vaidhyesh1/chef-it-up-backend" rel="noreferrer" target="_blank">Chef-It-Up Backend</a><br />
+                </div>
+
+                <div style={{textAlign: 'left'}}>
                     <h2 id="1-introduction">1. Introduction</h2>
 
                     <p>Cooking is a necessary survival skill that we use in our everyday lives. One of the most common challenges
@@ -119,7 +125,7 @@ function About(){
                 </div>
                 
                 <div style={{textAlign: 'left'}}>
-                    <h2 id="3-evaluation-and-analysis-of-results">3. Evaluation and Analysis of Results</h2>
+                    <h2 id="3-evaluation-and-analysis-of-results">4. Evaluation and Analysis of Results</h2>
                     <p>In order to evaluate our proposed methods, we created a train-test split of 80-20. 
                         We then measured the precision and recall at k = 5, 20 and 50.</p>
                     <p>The results are tabulated below:</p>
@@ -132,7 +138,7 @@ function About(){
                 </div>
                 
                 <div style={{textAlign: 'left'}}>
-                    <h2 id="4-conclusions">4. Conclusions</h2>
+                    <h2 id="4-conclusions">5. Conclusions</h2>
 
                     <p>In conclusion, Chef-it-Up has successfully achieved its goal of making the process of choosing a recipe easy
                         for users. By mapping user preferences and leveraging machine learning algorithms, we were able to provide

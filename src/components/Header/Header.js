@@ -26,11 +26,12 @@ function Header() {
             <Link style={{ textDecoration: 'none', color: 'white' }} to="/"><img src={chefHat} className='header-logo' alt="Chef-It-Up-Logo"/></Link>
             <Typography variant="h6"><Link style={{ textDecoration: 'none', color: 'white' }} to="/">CHEF IT UP</Link></Typography>
             <div className='navigation-container'>
-                <Box sx={{ width: '30%' }}>
+                <Box sx={{ width: '50%' }}>
                     <Tabs value={value} onChange={handleChange} centered>
                         <StyledTab label="Home" component={Link} to="/" />
                         <StyledTab label="Explore" component={Link} to="/recipes" />
                         <StyledTab label="Following" component={Link} to="/following" />
+                        <StyledTab label="About" component={Link} to="/about" />
                     </Tabs>
                 </Box>
             </div>

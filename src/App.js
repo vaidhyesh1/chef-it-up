@@ -2,17 +2,18 @@
 import './App.css';
 import { Route, Routes } from "react-router-dom";
 import { useEffect, useState } from 'react'
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import Home from './containers/Home/Home.js'
 import Header from './components/Header/Header.js'
 import Recipe from './containers/Recipe/Recipe.js'
 import ExploreRecipes from './containers/ExploreRecipes/ExploreRecipes.js'
 import Following from './containers/Following/Following.js'
 import UserSelect  from './components/UserSelect/UserSelect.js'
+import About from './containers/About/About.js';
 import { getUsers } from './Api.js'
 
 function App() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [selectedUser, setSelectedUser] = useState('');
   const [userList, setUserList] = useState([])
 
@@ -24,7 +25,7 @@ function App() {
 
   const handleUserChange = async (newSelectedUser) => {
     setSelectedUser(newSelectedUser)
-    navigate("/")
+    // navigate("/")
   }
 
   return (
@@ -38,6 +39,7 @@ function App() {
         <Route path="/recipes" element={<ExploreRecipes userId = {selectedUser} />} />
         <Route path="/recipe/:recipeId" element={<Recipe userId = {selectedUser} />} />
         <Route path="/following" element={<Following userId = {selectedUser} userList={userList} />} />
+        <Route path="/about" element={<About />} />
       </Routes>
     </div>
   );

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import './recipeTable.css'
 import { DataGrid } from '@mui/x-data-grid';
 import { postUserFollows } from '../../Api.js'
@@ -31,7 +31,7 @@ const formatTableData = (userFollows, userList) => {
 
 function UserTable(props) {
     const {userFollows, userId, userList} = props
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const columns = [
         { field: 'id', headerName: 'ID', minWidth: 20, flex:1},

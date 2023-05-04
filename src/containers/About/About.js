@@ -1,5 +1,6 @@
 import './about.css'
 import cf_formula from '../../assets/img/cf_formula.png'
+import ui_cf_formula from '../../assets/img/user_item_cf_formula.png'
 import ui_cf_steps from '../../assets/img/user_item_cf_steps.png'
 import user_follows from '../../assets/img/user_follows_formula.png'
 import explainable1 from '../../assets/img/explainable_1.png'
@@ -16,6 +17,7 @@ function About(){
         <div>
             <div className='about-body'>
 
+                <br />
                 <h1 id="chef-it-up-final-project-report">Chef-It-Up: Final Project Report</h1>
 
                 <div style={{textAlign: 'left'}}>
@@ -71,8 +73,11 @@ function About(){
                     <p>This algorithm provides recommendations to a user-item pair. 
                         Recommendations are a mix of both seen and unseen items.</p>
                     <p>The hybrid User-Item CF algorithm recommends 3 recipes. </p>
+                    <p>The formula used to compute the uer-item recommendations is shown below:</p>
+                    <img src={ui_cf_formula} alt="Hyrbid User-Item Collaborative Filtering formula" />
+
                     <p>The steps to generate these recommendations are outlined below:</p>
-                    <img src={ui_cf_steps} alt="Hyrbid User-Item Collaborative Filtering formula" />
+                    <img src={ui_cf_steps} alt="Hyrbid User-Item Collaborative Filtering steps" />
 
                     <h4>User Follows Collaborative Filtering</h4>
                     <p>This algorithm biases the previous two algorithms by using a user's following list. 

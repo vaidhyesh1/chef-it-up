@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import './recipe.css'
 import Recommendations from '../Recommendations/Recommendations';
+import UserSelect from '../../components/UserSelect/UserSelect.js';
 import {getRecipe, getRecommendations} from '../../Api.js';
 
 const renderSteps = (steps) => {
@@ -38,7 +39,7 @@ const formatSteps = (steps) => {
 }
 
 
-function Recipe () {
+function Recipe (props) {
     const navigate = useNavigate(); 
     let { recipeId } = useParams();
     const [searchParams] = useSearchParams();
@@ -50,6 +51,7 @@ function Recipe () {
     const [steps, setSteps] = useState('');
     const [recommendations, setRecommendations] = useState([]);
     const userId = searchParams.get('userId')
+    const {userList, setSelectedUser} = props
 
     useEffect(() => {
         getRecipe(recipeId).then(recipe => {
@@ -70,8 +72,16 @@ function Recipe () {
         });
     }, [recipeId, userId])
 
+    const handleSelectChange = (user) => {
+        setSelectedUser(user)
+        navigate(`/recipe/${recipeId}?userId=${user}`)
+    }
+
     return (
         <div>
+            <div className='recipe-container'>
+                <UserSelect userList = {userList} selectedUser = {userId} setSelectedUser={handleSelectChange}/>
+            </div>
             <Box
                 sx={{
                     display: 'flex',

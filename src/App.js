@@ -8,7 +8,7 @@ import Header from './components/Header/Header.js'
 import Recipe from './containers/Recipe/Recipe.js'
 import ExploreRecipes from './containers/ExploreRecipes/ExploreRecipes.js'
 import Following from './containers/Following/Following.js'
-import UserSelect  from './components/UserSelect/UserSelect.js'
+// import UserSelect  from './components/UserSelect/UserSelect.js'
 import About from './containers/About/About.js';
 import { getUsers } from './Api.js'
 
@@ -31,14 +31,11 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <div style={{textAlign: 'center', position: 'relative', left: '40%'}}>
-        <UserSelect userList = {userList} selectedUser = {selectedUser} setSelectedUser={handleUserChange}/>
-      </div>
       <Routes>
-        <Route path="/" element={<Home selectedUser = {selectedUser} />} />
-        <Route path="/recipes" element={<ExploreRecipes userId = {selectedUser} />} />
-        <Route path="/recipe/:recipeId" element={<Recipe userId = {selectedUser} />} />
-        <Route path="/following" element={<Following userId = {selectedUser} userList={userList} />} />
+        <Route path="/" element={<Home userList = {userList} selectedUser = {selectedUser} setSelectedUser={handleUserChange} />} />
+        <Route path="/recipes" element={<ExploreRecipes userList = {userList} userId = {selectedUser} setSelectedUser={handleUserChange} />} />
+        <Route path="/recipe/:recipeId" element={<Recipe userList = {userList} setSelectedUser={handleUserChange} />} />
+        <Route path="/following" element={<Following userList={userList} userId = {selectedUser} setSelectedUser={handleUserChange} />} />
         <Route path="/about" element={<About />} />
       </Routes>
     </div>

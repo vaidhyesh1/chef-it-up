@@ -30,6 +30,7 @@ function UserSelect(props){
                 onChange={handleChange}
                 label="Age"
                 className='select'
+                style={{width: '125%'}}
             >
                 {renderMenuItems(userList)}
             </Select>
